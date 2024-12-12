@@ -1,17 +1,16 @@
 // This files contain helper functions for all the Component functions.
 
-//Keep a registery of the id already generated
-const generatedId  = 0;
+// Declaration variables
+let generatedId = 0;
+let generatedKeyNumber = 0;
 
 // generate new id automatically
-const generateId = () => {
+export function generateId() {
     generatedId++;
     return generatedId;
 };
 
-
-const ressources = {
-    generateId
-}
-
-export default ressources;
+export function generateKeyNumber() {
+    generatedKeyNumber++;
+    return generatedKeyNumber;
+};

@@ -1,23 +1,44 @@
-import logo from './logo.svg';
 import './App.css';
+import React, {useState} from 'react';
+import TrackList from './Components/TrackList/TrackList.js';
+import Playlist from './Components/Playlist/Playlist.js';
+import AddPlaylistButton from "./Components/AddPlaylistButton/AddPlaylistButton.js";
+
 
 function App() {
+  const [playlists, setPlaylists] = useState([]);
+  const [isMenuPlaylist, setIsMenuPlaylist] = useState(true);
+
+  const addPlaylist = (name) => {
+    setPlaylists(prev => prev.push({
+      name: name,
+      songs: []
+    }));
+  };
+
+  const handlePlaylistClick = () => {
+    setIsMenuPlaylist(false);
+  };
+
+  const handleBackToMenu = () => {
+    setIsMenuPlaylist(false);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <TrackList />
+      <AddPlaylistButton 
+        disabled={isMenuPlaylist}
+        addPlaylist={addPlaylist}/>
+      {isMenuPlaylist ? (
+        <div>
+        {playlists.map(playlist => {
+          <h2>{playlist.name}</h2>
+        })}
+      </div>
+      ) : <Playlist onClick={handlePlaylistClick} playlists={playlists} />
+      }    
+      
     </div>
   );
 }

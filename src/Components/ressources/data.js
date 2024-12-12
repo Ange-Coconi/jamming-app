@@ -1,4 +1,4 @@
-import { generateId } from './helperFunction';
+import { generateId } from './helperFunction.js';
 
 const trackList1 = [
     {

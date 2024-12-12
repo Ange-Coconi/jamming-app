@@ -4,11 +4,11 @@ function Track(props) {
 
     return (
         <div>
-            <h5>{song.name}</h5>
-            <h6>{song.artist}</h6>
-            <h6>{song.album}</h6>
+            <h5>{props.songName}</h5>
+            <h6>{props.artist}</h6>
+            <h6>{props.album}</h6>
         </div>
-    )
+    );
 }
 
 export default Track;
