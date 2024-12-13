@@ -6,7 +6,9 @@ function SearchResults(props) {
     return (
         <div>
             <h2>Results</h2>
-            <TrackList tracklistToDisplay={props.tracklistToDisplay} />
+            <TrackList 
+                tracklistToDisplay={props.tracklistToDisplay} 
+                handleAddTrack={props.handleAddTrack} />
         </div>
     );
 };

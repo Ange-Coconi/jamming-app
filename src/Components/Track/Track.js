@@ -10,8 +10,8 @@ function Track(props) {
             <h6>{props.artist}</h6>
             <h6>{props.album}</h6>
             {props.type === "playlist" ? 
-            <RemoveTrackButton /> : 
-            <AddTrackButton />
+            <RemoveTrackButton handleRemoveTrack={props.handleRemoveTrack} songId={props.songId} /> : 
+            <AddTrackButton handleRemoveTrack={props.handleRemoveTrack} songId={props.songId}/>
             }
         </div>
     );
