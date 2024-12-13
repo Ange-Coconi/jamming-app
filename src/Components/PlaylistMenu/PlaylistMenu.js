@@ -7,8 +7,8 @@ function PlaylistMenu(props) {
         <>
         {props.isMenuPlaylist ? (
             <div>
-              {props.playlists.map(playlist => {
-                <h2 onClick={props.handlePlaylistClick} className={playlist.name}>{playlist.name}</h2>
+              {Object.entries(props.playlists).map(([namePlaylist, playlist]) => {
+                <h2 onClick={props.handlePlaylistClick} className={namePlaylist}>{namePlaylist}</h2>
               })}
               <button type="button" onClick={props.handleAddPlaylist}>Add a new playlist !</button>
             </div>        
@@ -18,7 +18,8 @@ function PlaylistMenu(props) {
               <Playlist 
                 playlistToDisplay={props.playlistToDisplay} 
                 namePlaylistToDisplay={props.namePlaylistToDisplay}
-                handleNewName={props.handleNewName}/>
+                handleNewName={props.handleNewName}
+                handleRemoveTrack={props.handleRemoveTrack} />
             </div>
           }
         </>

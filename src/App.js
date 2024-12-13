@@ -9,12 +9,10 @@ function App() {
   const [search, setSearch] = useState(""); // String corresponding of the input of the user for the search.
   const [tracklistToDisplay, setTracklistToDisplay] = useState(); 
   const [isMenuPlaylist, setIsMenuPlaylist] = useState(true); // Boolean to determine if the playlist menu is display or not;
-  const [playlists, setPlaylists] = useState([]); // List of "playlist object", which contain two keys ==> name: string, songs: array. The Array of songs contain "song object".
+  const [playlists, setPlaylists] = useState({}); // Object of "playlist object", which contain two keys ==> name: string, songs: array. The Array of songs contain "song object".
   const [playlistToDisplay, setPlaylistToDisplay] = useState(); // The playlist to display, this variable contain an object ==> name + songs.
   const [namePlaylistToDisplay, setNamePlaylistToDisplay] = useState(""); // Name of the playlist to display.
   const [message, setMessage] = useState("")
-
-  let indexPlaylist;
   
   const handleNewName = (e) => {
     setNamePlaylistToDisplay(e.target.value)
@@ -22,23 +20,12 @@ function App() {
 
   const handleAddPlaylist = (e) => {
     setIsMenuPlaylist(false);
-    setPlaylists(prev => prev.push({
-      name: "",
-      songs: []
-    }));
-    setPlaylistToDisplay(playlists[playlists.length - 1])
+    setPlaylistToDisplay({})
   }
 
   const handlePlaylistClick = (e) => {
     const playlistName = e.target.className;
-    indexPlaylist = 0;
-    for (let i = 0; indexPlaylist < playlists.length; i++) {
-      if (playlists[indexPlaylist].name === playlistName) {
-        indexPlaylist = i;
-        break
-      };
-    };
-    setPlaylistToDisplay(playlists[indexPlaylist]);
+    setPlaylistToDisplay(playlists.playlistName);
     setNamePlaylistToDisplay(playlistName);
     setIsMenuPlaylist(false);
   };
@@ -49,21 +36,20 @@ function App() {
   }
 
   const handleAddTrack = (e) => {
-    const parentDiv = e.targetclosest('div');
-    const songToAdd = e.target.song
+    const idSongToAdd = e.target.songId
     if (!isMenuPlaylist) {
-      if (playlists[indexPlaylist].songs.include(songToAdd)) {
+      if (playlists[namePlaylistToDisplay].include(idSongToAdd)) {
         setMessage("This song is already present in the palylist");
-        setTimeout(() => setMessage(""), 4000);
+        setTimeout(() => setMessage(""), 2000);
       } else {
-        playlists[indexPlaylist].songs.push(songToAdd);
+        playlists[namePlaylistToDisplay][idSongToAdd] = tracklistToDisplay.idSongToAdd;
       }     
     }
   }
 
   const handleRemoveTrack = (e) => {
-    // playlists
-
+    const idSongToRemove = e.target.songId
+    delete playlists[namePlaylistToDisplay][idSongToRemove]; 
   }
 
   const handleInputSearch = (e) => {
@@ -93,7 +79,8 @@ function App() {
         handleNewName={handleNewName}
         handleAddPlaylist={handleAddPlaylist} 
         handlePlaylistClick={handlePlaylistClick}
-        handleBackToMenu={handleBackToMenu} 
+        handleBackToMenu={handleBackToMenu}
+        handleRemoveTrack={handleRemoveTrack} 
         />          
     </div>
   );

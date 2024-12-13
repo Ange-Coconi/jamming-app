@@ -12,7 +12,6 @@ function TrackList(props) {
                 return (
                 <Track 
                 key={`track-${generateKeyNumber()}`} 
-                song={song}
                 songId={song.id}
                 songName={song.name} 
                 artist={song.artist} 

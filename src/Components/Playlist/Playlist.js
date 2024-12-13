@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import ressources from "../ressources/data.js"
 import Track from "../Track/Track.js";
+import SaveToSpotifyButton from "../SaveToSpotifyButton/SaveToSpotifyButton.js";
 
 import {generateKeyNumber} from "../ressources/helperFunction.js"
 
@@ -21,9 +21,12 @@ function Playlist(props) {
                         songName={song.name} 
                         artist={song.artist} 
                         album={song.album} 
-                        type="playlist" />
+                        type="playlist" 
+                        handleRemoveTrack={props.handleRemoveTrack} 
+                    />
                     )
-            })}               
+            })}
+            <SaveToSpotifyButton />               
         </div>
     );
 };
