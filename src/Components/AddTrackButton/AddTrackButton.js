@@ -1,8 +1,8 @@
 import React from "react";
 
-function AddTrackButton() {
+function AddTrackButton(props) {
     return (
-        <button>+</button>
+        <button onClick={props.handleAddTrack}>+</button>
     )
 };
 

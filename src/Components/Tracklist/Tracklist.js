@@ -12,10 +12,13 @@ function TrackList(props) {
                 return (
                 <Track 
                 key={`track-${generateKeyNumber()}`} 
+                song={song}
+                songId={song.id}
                 songName={song.name} 
                 artist={song.artist} 
                 album={song.album} 
-                type="tracklist" />
+                type="tracklist" 
+                handleAddTrack={props.handleAddTrack} />
                 )
             })}    
         </div>

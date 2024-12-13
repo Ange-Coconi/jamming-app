@@ -11,7 +11,7 @@ function Track(props) {
             <h6>{props.album}</h6>
             {props.type === "playlist" ? 
             <RemoveTrackButton /> : 
-            <AddTrackButton />
+            <AddTrackButton handleAddTrack={props.handleAddTrack} song={props.song}/>
             }
         </div>
     );

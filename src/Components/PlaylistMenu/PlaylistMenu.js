@@ -15,7 +15,10 @@ function PlaylistMenu(props) {
           ) : 
             <div>
               <button type="button" onClick={props.handleBackToMenu} >Back to playlists menu</button>
-              <Playlist playlistToDisplay={props.playlistToDisplay} />
+              <Playlist 
+                playlistToDisplay={props.playlistToDisplay} 
+                namePlaylistToDisplay={props.namePlaylistToDisplay}
+                handleNewName={props.handleNewName}/>
             </div>
           }
         </>
