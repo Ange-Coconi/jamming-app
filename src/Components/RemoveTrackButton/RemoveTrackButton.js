@@ -1,8 +1,9 @@
 import React from "react";
+import styles from '../Track/Track.module.css';
 
 function RemoveTrackButton() {
     return (
-        <button>-</button>
+        <button className={styles.RemoveTrackButton}>-</button>
     )
 };
 

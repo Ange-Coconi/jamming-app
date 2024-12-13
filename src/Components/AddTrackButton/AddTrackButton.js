@@ -1,8 +1,11 @@
 import React from "react";
+import styles from '../Track/Track.module.css';
 
 function AddTrackButton(props) {
     return (
-        <button onClick={props.handleAddTrack} songId={props.songId} >+</button>
+        <div className={styles.AddTrackButton}>
+            <button onClick={() => props.handleAddTrack(props.songId)} >+</button>
+        </div>
     )
 };
 

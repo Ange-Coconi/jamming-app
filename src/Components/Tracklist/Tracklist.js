@@ -4,15 +4,15 @@ import Track from "../Track/Track.js";
 import {generateKeyNumber} from "../ressources/helperFunction.js"
 
 function TrackList(props) {
-    const [searchResult, setSearchResult] = useState(ressources.trackList1);
+    const searchResult = ressources.trackList1;
+
 
     return (
         <div>
-            {searchResult.map(song => {
+            {Object.entries(searchResult).map(([songId, song]) => {
                 return (
                 <Track 
                 key={`track-${generateKeyNumber()}`} 
-                songId={song.id}
                 songName={song.name} 
                 artist={song.artist} 
                 album={song.album} 
