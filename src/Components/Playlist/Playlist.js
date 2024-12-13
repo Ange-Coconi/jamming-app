@@ -5,15 +5,30 @@ import Track from "../Track/Track.js";
 import {generateKeyNumber} from "../ressources/helperFunction.js"
 
 function Playlist(props) {
-    const playlists = props.playlists;
+    const [name, setName] = useState(props.playlistToDisplay.name)
+
+    const handleNewName = (e) => {
+        setName(e.target.value)
+    }
 
     return (
         <div>
-            <h2>Number of playlist : {playlists.length}</h2>
-            {playlists.map(song => {
-                return <Track key={`track-${generateKeyNumber()}`} songName={song.name} artist={song.artist} album={song.album} />
-            })}
-                
+            { name ? 
+                <h2>{name}</h2> : 
+                <input onChange={handleNewName} type="text" value={name}/>    
+            }
+            
+            <p>Number of song : {props.playlistToDisplay.song.length}</p>
+            {props.playlistToDisplay.song.map(song => {
+                return (
+                    <Track 
+                        key={`track-${generateKeyNumber()}`} 
+                        songName={song.name} 
+                        artist={song.artist} 
+                        album={song.album} 
+                        type="playlist" />
+                    )
+            })}               
         </div>
     );
 };

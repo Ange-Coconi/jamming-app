@@ -1,0 +1,14 @@
+import React from "react";
+import TrackList from "../TrackList/TrackList.js";
+
+function SearchResults(props) {
+
+    return (
+        <div>
+            <h2>Results</h2>
+            <TrackList tracklistToDisplay={props.tracklistToDisplay} />
+        </div>
+    );
+};
+
+export default SearchResults;

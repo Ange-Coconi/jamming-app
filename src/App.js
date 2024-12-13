@@ -1,44 +1,76 @@
 import './App.css';
 import React, {useState} from 'react';
-import TrackList from './Components/TrackList/TrackList.js';
-import Playlist from './Components/Playlist/Playlist.js';
-import AddPlaylistButton from "./Components/AddPlaylistButton/AddPlaylistButton.js";
+import SearchResults from './Components/SearchResults/SearchResults.js';
+import PlaylistMenu from './Components/PlaylistMenu/PlaylistMenu.js';
+import SearchField from './Components/SearchField/SearchField.js';
 
 
 function App() {
   const [playlists, setPlaylists] = useState([]);
   const [isMenuPlaylist, setIsMenuPlaylist] = useState(true);
+  const [playlistToDisplay, setPlaylistToDisplay] = useState();
+  const [search, setSearch] = useState("");
+  const [tracklistToDisplay, setTracklistToDisplay] = useState();
 
-  const addPlaylist = (name) => {
+  const handleAddPlaylist = (e) => {
+    setIsMenuPlaylist(false);
     setPlaylists(prev => prev.push({
-      name: name,
+      name: "",
       songs: []
     }));
-  };
+    setPlaylistToDisplay(playlists[playlists.length - 1])
+  }
 
-  const handlePlaylistClick = () => {
+  const handlePlaylistClick = (e) => {
+    const playlistName = e.target.className;
+    let indexPlaylist = 0;
+    for (let i = 0; indexPlaylist < playlists.length; i++) {
+      if (playlists[indexPlaylist].name === playlistName) {
+        indexPlaylist = i;
+        break
+      };
+    };
+    setPlaylistToDisplay(playlists[indexPlaylist]);
     setIsMenuPlaylist(false);
   };
 
   const handleBackToMenu = () => {
-    setIsMenuPlaylist(false);
+    setIsMenuPlaylist(true);
+  }
+
+  const handleAddTrack = (e) => {
+
+  }
+
+  const handleRemoveTrack = (e) => {
+    playlists
+  }
+
+  const handleInputSearch = (e) => {
+    setSearch(e.target.value);
+  }
+
+  const handleSubmitSearch = (e) => {
+    e.preventDefault();
+    // tracklist = fetch
+    
   }
 
   return (
     <div className="App">
-      <TrackList />
-      <AddPlaylistButton 
-        disabled={isMenuPlaylist}
-        addPlaylist={addPlaylist}/>
-      {isMenuPlaylist ? (
-        <div>
-        {playlists.map(playlist => {
-          <h2>{playlist.name}</h2>
-        })}
-      </div>
-      ) : <Playlist onClick={handlePlaylistClick} playlists={playlists} />
-      }    
-      
+      <SearchField 
+        search={search} 
+        handleInputSearch={handleInputSearch} 
+        handleSubmitSearch={handleSubmitSearch} />
+      <SearchResults 
+        tracklistToDisplay={tracklistToDisplay} />
+      <PlaylistMenu 
+        playlists={playlists} 
+        isMenuPlaylist={isMenuPlaylist}
+        playlistToDisplay={playlistToDisplay}
+        handleAddPlaylist={handleAddPlaylist} 
+        handlePlaylistClick={handlePlaylistClick}
+        handleBackToMenu={handleBackToMenu} />          
     </div>
   );
 }
