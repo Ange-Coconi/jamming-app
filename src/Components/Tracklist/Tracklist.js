@@ -12,7 +12,8 @@ function TrackList(props) {
             {Object.entries(searchResult).map(([songId, song]) => {
                 return (
                 <Track 
-                key={`track-${generateKeyNumber()}`} 
+                key={`track-${generateKeyNumber()}`}
+                songId={songId} 
                 songName={song.name} 
                 artist={song.artist} 
                 album={song.album} 
