@@ -1,23 +1,29 @@
 import React, {useState} from "react";
 import Track from "../Track/Track.js";
 import SaveToSpotifyButton from "../SaveToSpotifyButton/SaveToSpotifyButton.js";
-
+import styles from "./Playlist.module.css"
 import {generateKeyNumber} from "../ressources/helperFunction.js"
 
 function Playlist(props) {
 
     return (
-        <div>
-            { props.namePlaylistToDisplay ? 
-                <h2>{props.namePlaylistToDisplay}</h2> : 
-                <input onChange={props.handleNewName} type="text" value={props.namePlaylistToDisplay}/>    
+        <div className={styles.Playlist}>
+            { props.keepPlaylistName ? 
+                <div>
+                    <h2>{props.namePlaylistToDisplay}</h2>
+                    <button onClick={props.handleModifPlaylistName}>modif</button>
+                </div> : 
+                <form onSubmit={props.handleSubitNamePlaylist}>
+                    <input onChange={props.handleNewName} type="text" value={props.namePlaylistToDisplay}/>
+                    <button type="submit">ok</button>
+                </form>   
             }  
-            <p>Number of song : {props.playlistToDisplay.song.length}</p>
-            {props.playlistToDisplay.song.map(song => {
+            <p>Number of song : {Object.keys(props.playlistToDisplay).length}</p>
+            {Object.entries(props.playlistToDisplay).map(([songId, song]) => {
                 return (
                     <Track 
                         key={`track-${generateKeyNumber()}`}
-                        songId={song.id} 
+                        songId={songId} 
                         songName={song.name} 
                         artist={song.artist} 
                         album={song.album} 

@@ -4,7 +4,7 @@ import TrackList from "../TrackList/TrackList.js";
 function SearchResults(props) {
 
     return (
-        <div>
+        <div className="SearchResults">
             <h2>Results</h2>
             <TrackList 
                 tracklistToDisplay={props.tracklistToDisplay} 

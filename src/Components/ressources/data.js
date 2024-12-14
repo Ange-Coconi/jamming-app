@@ -1,58 +1,52 @@
 import { generateId } from './helperFunction.js';
 
-const trackList1 = [
+const trackList1 = 
     {
-        name: "song1",
-        artist: "artist1",
-        album: "album1",
-        id: generateId()
-    }, 
-    {
-        name: "song2",
-        artist: "artist1",
-        album: "album1",
-        id: generateId()
-    },
-    {
-        name: "song3",
-        artist: "artist1",
-        album: "album1",
-        id: generateId()
-    },
-    {
-        name: "song4",
-        artist: "artist1",
-        album: "album1",
-        id: generateId()
-    }
-];
+        id1: {     
+            artist: "artist1",
+            album: "album1",
+            name: "song1"
+        }, 
+        id2: {
+            artist: "artist1",
+            album: "album1",
+            name: "song2"
+        },
+        id3: {
+            artist: "artist1",
+            album: "album1",
+            name: "song3"
+        },
+        id4: {
+            artist: "artist1",
+            album: "album1",
+            name: "song4"
+        }
+    };
 
-const trackList2 = [
+const trackList2 = 
     {
-        name: "song1",
-        artist: "artist2",
-        album: "album1",
-        id: generateId()
-    }, 
-    {
-        name: "song2",
-        artist: "artist2",
-        album: "album1",
-        id: generateId()
-    },
-    {
-        name: "song3",
-        artist: "artist2",
-        album: "album1",
-        id: generateId()
-    },
-    {
-        name: "song4",
-        artist: "artist2",
-        album: "album1",
-        id: generateId()
-    }
-];
+        id1: {     
+            artist: "artist2",
+            album: "album1",
+            name: "song1"
+        }, 
+        id2: {
+            artist: "artist2",
+            album: "album1",
+            name: "song2"
+        },
+        id3: {
+            artist: "artist2",
+            album: "album1",
+            name: "song3"
+        },
+        id4: {
+            artist: "artist2",
+            album: "album1",
+            name: "song4"
+        }
+    };
 
 const ressources = {
     trackList1,
