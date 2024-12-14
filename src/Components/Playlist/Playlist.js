@@ -8,18 +8,21 @@ function Playlist(props) {
 
     return (
         <div className={styles.Playlist}>
+            <div className={styles.BackToMenuButtonAndDelete}>
+                <button onClick={props.handleDeletePlaylist}>delete</button>
+                <button type="button" onClick={props.handleBackToMenu} >Back to playlists menu</button>
+            </div>
             { props.keepPlaylistName ? 
-                <div>
+                <div className={styles.title}>
                     <h2>{props.namePlaylistToDisplay}</h2>
-                    <button onClick={props.handleModifPlaylistName}>modif</button>
-                    <button onClick={props.handleDeletePlaylist}>delete</button>
+                    <button onClick={props.handleModifPlaylistName}>modify playlist's name</button>
+                    <p>Number of song : {Object.keys(props.playlistToDisplay).length}</p>
                 </div> : 
                 <form onSubmit={props.handleSubitNamePlaylist}>
                     <input onChange={props.handleNewName} type="text" value={props.namePlaylistToDisplay}/>
                     <button type="submit">ok</button>
                 </form>   
             }  
-            <p>Number of song : {Object.keys(props.playlistToDisplay).length}</p>
             {Object.entries(props.playlistToDisplay).map(([songId, song]) => {
                 return (
                     <Track 

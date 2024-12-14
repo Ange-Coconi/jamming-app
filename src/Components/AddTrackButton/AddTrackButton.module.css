@@ -1,0 +1,13 @@
+.AddTrackButton button {
+    background-color:darkorchid;
+    color: white;
+    border: solid white 1px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    padding: 0.3rem;
+    text-align: center;
+    height: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

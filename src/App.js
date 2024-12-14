@@ -3,10 +3,12 @@ import React, {useState, useEffect} from 'react';
 import SearchResults from './Components/SearchResults/SearchResults.js';
 import PlaylistMenu from './Components/PlaylistMenu/PlaylistMenu.js';
 import SearchField from './Components/SearchField/SearchField.js';
-import ressources from "./Components/ressources/data.js"
+import ressources from "./Components/ressources/data.js";
+import { useAuth, AuthProvider } from './Modules/AuthService.js';
+import { searchTracksByArtist } from './Modules/requestAPI.js';
 
 
-function App() {
+function AppContent() {
   const [search, setSearch] = useState(""); // String corresponding of the input of the user for the search.
   const [tracklistToDisplay, setTracklistToDisplay] = useState(); 
   const [isMenuPlaylist, setIsMenuPlaylist] = useState(true); // Boolean to determine if the playlist menu is display or not;
@@ -16,7 +18,9 @@ function App() {
   const [keepPlaylistName, setKeepPlaylistName] = useState(true)
   const [message, setMessage] = useState("")
   const [isPlaylistUpdatePending, setIsPlaylistUpdatePending] = useState(false);
-  
+  const [showMessage, setShowMessage] = useState(false);
+  const { isAuthenticated } = useAuth();
+ 
   useEffect(() => {
     if (isPlaylistUpdatePending && namePlaylistToDisplay) {
       setPlaylists(prevPlaylists => {
@@ -50,44 +54,49 @@ function App() {
   }
 
   const handlePlaylistClick = async (e) => {
-    let playlistName = e.target.className;
+    let playlistName = e.target.className.split(' ').slice(1).join(' ');
     setNamePlaylistToDisplay(playlistName);
     setIsPlaylistUpdatePending(true);
     setPlaylistToDisplay(playlists[playlistName]);
     setIsMenuPlaylist(false);
-    // setPlaylists(prev => {
-    //   let newObject = {...prev};
-    //   delete newObject[namePlaylistToDisplay];
-    //   return newObject;
-    // });
   };
 
   const handleBackToMenu = () => {
     setIsMenuPlaylist(true);
     if (Object.keys(playlists).includes(namePlaylistToDisplay)) {
-      
       let number = 1;
       let newName = namePlaylistToDisplay;
       while (Object.keys(playlists).includes(newName)) {
-
         newName = `${namePlaylistToDisplay} (${number})`;
         number++;
       };
       setNamePlaylistToDisplay(newName);
+      setPlaylists((prev) => (
+        {
+          ...prev,
+          [newName]: playlistToDisplay
+        }
+      ));
+    } else {
+      setPlaylists((prev) => (
+        {
+          ...prev,
+          [namePlaylistToDisplay]: playlistToDisplay
+        }
+      ));
     };
-    setPlaylists((prev) => (
-      {
-        ...prev,
-        [namePlaylistToDisplay]: playlistToDisplay
-      }
-    ))
   };
 
   const handleAddTrack = (idSongToAdd) => {
     if (!isMenuPlaylist) {
       if (Object.keys(playlistToDisplay).includes(idSongToAdd)) {
         setMessage("This song is already present in the palylist");
-        setTimeout(() => setMessage(""), 2000);
+        setShowMessage(true);
+        setTimeout(() => {
+          setMessage("")
+          setShowMessage(false)
+        }
+        , 2000);
       } else {
         setPlaylistToDisplay((prev) => (
           {
@@ -99,40 +108,42 @@ function App() {
     };
   };
 
-  const handleRemoveTrack = (e) => {
-    const idSongToRemove = e.target.songId;
-    setPlaylists(prev => {
-      const { [idSongToRemove]: _, ...updatedPlaylist } = prev[namePlaylistToDisplay];
-      return {
-        ...prev, 
-        [namePlaylistToDisplay]: updatedPlaylist
-      };
+  const handleRemoveTrack = (idSongToRemove) => {
+    setPlaylistToDisplay(prev => {
+      const { [idSongToRemove]: _, ...updatedPlaylist } = prev;
+      return updatedPlaylist;
     });
-    setIsMenuPlaylist(true);
   };
 
   const handleInputSearch = (e) => {
     setSearch(e.target.value);
   };
 
-  const handleSubmitSearch = (e) => {
+  const handleSubmitSearch = async (e) => {
     e.preventDefault();
-    // tracklist = fetch 
+    alert(search);
+    try {
+      let tracks = searchTracksByArtist(search);
+      setTracklistToDisplay(tracks);
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
-  const handleTest = () => {
-    console.log(playlists);
-    console.log(namePlaylistToDisplay)
-  };
+  if (!isAuthenticated) {
+    return <div>Authenticating...</div>;
+  }
 
   return (
     <div className="App">
-      <p onClick={handleTest}>Test Button</p>
       <SearchField         
         search={search} 
         handleInputSearch={handleInputSearch} 
         handleSubmitSearch={handleSubmitSearch} />
-      <p>{message}</p>
+      <div className="message">
+        <h5 style={showMessage ? {backgroundColor: "rgba(40, 3, 99, 0.7)"} : {}}>{message}</h5>
+        <p>Tu ne me vois pas!</p>
+      </div>
       <div className="container">
         <SearchResults 
           tracklistToDisplay={tracklistToDisplay} 
@@ -155,6 +166,14 @@ function App() {
           />
         </div>          
     </div>
+  );
+};
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 };
 
