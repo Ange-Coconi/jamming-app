@@ -12,6 +12,7 @@ function Playlist(props) {
                 <div>
                     <h2>{props.namePlaylistToDisplay}</h2>
                     <button onClick={props.handleModifPlaylistName}>modif</button>
+                    <button onClick={props.handleDeletePlaylist}>delete</button>
                 </div> : 
                 <form onSubmit={props.handleSubitNamePlaylist}>
                     <input onChange={props.handleNewName} type="text" value={props.namePlaylistToDisplay}/>

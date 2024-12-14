@@ -1,0 +1,11 @@
+
+.displayPlaylists {
+    display: flex;
+    flex-direction: column;
+}
+
+.displayPlaylists .addNewPlaylist {
+    display: flex;
+    justify-content: end;
+
+}
