@@ -29,7 +29,8 @@ function PlaylistMenu(props) {
                   handleModifPlaylistName={props.handleModifPlaylistName}
                   handleSubitNamePlaylist={props.handleSubitNamePlaylist}
                   handleDeletePlaylist={props.handleDeletePlaylist}
-                  handleBackToMenu={props.handleBackToMenu} />
+                  handleBackToMenu={props.handleBackToMenu}
+                  handleSaveToSpotify={props.handleSaveToSpotify} />
               </div>
             }
         </div>

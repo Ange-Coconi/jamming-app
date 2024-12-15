@@ -5,7 +5,7 @@ import PlaylistMenu from './Components/PlaylistMenu/PlaylistMenu.js';
 import SearchField from './Components/SearchField/SearchField.js';
 import ressources from "./Components/ressources/data.js";
 import { useAuth, AuthProvider } from './Modules/AuthService.js';
-import { fetchTopTracks, searchArtistByName } from './Modules/requestAPI.js';
+import { fetchTopTracks, searchArtistByName, addPlaylistToUser } from './Modules/requestAPI.js';
 
 
 function AppContent() {
@@ -157,6 +157,23 @@ function AppContent() {
     }
   };
 
+  const handleSaveToSpotify = async () => {
+    const ids = Object.keys(playlistToDisplay).join(',');
+    const arrayOfMusicId = Object.keys(playlistToDisplay);
+    let message;
+    try {
+      message = await addPlaylistToUser(arrayOfMusicId, ids, accessToken);
+    } catch(err) {
+      console.error(err);
+    }
+    setMessage(message);
+    setShowMessage(true);
+    setTimeout(() => {
+        setMessage("")
+        setShowMessage(false);
+    });
+  };
+
   if (!isAuthenticated) {
     return <div>Authenticating...</div>;
   }
@@ -190,6 +207,7 @@ function AppContent() {
           handleSubitNamePlaylist={handleSubitNamePlaylist}
           handleModifPlaylistName={handleModifPlaylistName}
           handleDeletePlaylist={handleDeletePlaylist}
+          handleSaveToSpotify={handleSaveToSpotify}
           />
         </div>          
     </div>
