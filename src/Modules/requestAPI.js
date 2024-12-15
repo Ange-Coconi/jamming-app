@@ -44,6 +44,26 @@ export const fetchTopTracks = async (artistId, accessToken) => {
   return data.tracks;
 };
 
+export const addPlaylistToUser = async (arrayOfMusicId, ids, accessToken) => {
+    // Define url
+    const url = `${SPOTIFY_BASE_URL}/me/tracks?ids=${encodeURIComponent(ids)}`;
+    // POST the playlist
+    const response = await fetch(url, {
+        method: 'PUT',
+        headers : { 
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'  },
+        body: {
+            "ids": arrayOfMusicId
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(`Error adding playlist: ${response.statusText}`);
+    }
+
+    return "playlist succesfully saved !";
+}
 
 
 

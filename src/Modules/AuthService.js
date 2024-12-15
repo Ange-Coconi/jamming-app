@@ -3,7 +3,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const clientId = 'ce047644b36f47f09dca39b56bbe2a06';
 const redirectUri = 'http://localhost:3000/';
-const scope = 'user-read-private user-read-email playlist-read-private playlist-modify-private';
+const scope = 'user-read-private user-read-email playlist-read-private playlist-modify-private user-library-modify';
 
 const generateCodeVerifier = (length) => {
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

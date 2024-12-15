@@ -9,7 +9,8 @@ function Playlist(props) {
     return (
         <div className={styles.Playlist}>
             <div className={styles.BackToMenuButtonAndDelete}>
-                <button onClick={props.handleDeletePlaylist}>delete</button>
+                <button type="button" onClick={props.handleSaveToSpotify}>Save to Spotify</button>
+                <button type="button" onClick={props.handleDeletePlaylist}>delete</button>
                 <button type="button" onClick={props.handleBackToMenu} >Back to playlists menu</button>
             </div>
             { props.keepPlaylistName ? 
