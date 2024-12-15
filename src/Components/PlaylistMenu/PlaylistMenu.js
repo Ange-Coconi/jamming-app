@@ -1,6 +1,7 @@
 import React from "react";
 import Playlist from "../Playlist/Playlist.js";
-import styles from "./PlaylistMenu.module.css"
+import styles from "./PlaylistMenu.module.css";
+import { v4 as uuidv4 } from 'uuid';
 
 function PlaylistMenu(props) {
 
@@ -9,21 +10,16 @@ function PlaylistMenu(props) {
           {props.isMenuPlaylist ? (
               <div className={styles.displayPlaylists}>
                 <div className={styles.addNewPlaylist}>
-                  <button type={styles.button} onClick={props.handleAddPlaylist}>Add a new playlist !</button>
+                  <h6 className={styles.button} onClick={props.handleAddPlaylist}>Add a new playlist !</h6>
                 </div>
-                <p>{Object.keys(props.playlists).length}</p>
                 <div className={styles.playlists}>
                   {Object.entries(props.playlists).map(([namePlaylist, playlist]) => {
-                    return (<h2 onClick={props.handlePlaylistClick} className={namePlaylist}>{namePlaylist}</h2>);
+                    return (<h2 key={uuidv4()} onClick={props.handlePlaylistClick} className={`${styles.playlistItem} ${namePlaylist}`}>{namePlaylist}</h2>);
                   })}
                 </div>
               </div>        
             ) : 
-              <div className="displayPlaylistContainer">
-                <div>
-                  <button type="button" onClick={props.handleBackToMenu} >Back to playlists menu</button>
-                </div>
-                <p>{Object.keys(props.playlists).length}</p>
+              <div className={styles.displayPlaylistContainer}>
                 <Playlist 
                   playlistToDisplay={props.playlistToDisplay} 
                   namePlaylistToDisplay={props.namePlaylistToDisplay}
@@ -32,7 +28,8 @@ function PlaylistMenu(props) {
                   keepPlaylistName={props.keepPlaylistName}
                   handleModifPlaylistName={props.handleModifPlaylistName}
                   handleSubitNamePlaylist={props.handleSubitNamePlaylist}
-                  handleDeletePlaylist={props.handleDeletePlaylist} />
+                  handleDeletePlaylist={props.handleDeletePlaylist}
+                  handleBackToMenu={props.handleBackToMenu} />
               </div>
             }
         </div>

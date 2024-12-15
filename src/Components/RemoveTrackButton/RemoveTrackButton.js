@@ -1,9 +1,12 @@
 import React from "react";
 import styles from '../Track/Track.module.css';
+import styles2 from './RemoveTrackButton.module.css'
 
-function RemoveTrackButton() {
+function RemoveTrackButton(props) {
     return (
-        <button className={styles.RemoveTrackButton}>-</button>
+        <div className={`${styles.RemoveTrackButton} ${styles2.RemoveTrackButton}`}>
+            <button onClick={() => props.handleRemoveTrack(props.songId)}>-</button>
+        </div>
     )
 };
 
