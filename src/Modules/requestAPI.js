@@ -1,18 +1,49 @@
 // Modules/spotifyAPI.js
+import { getRefreshToken } from "./AuthService.js";
 
 const SPOTIFY_BASE_URL = 'https://api.spotify.com/v1';
 
-export const searchTracksByArtist = async (artist, accessToken) => {
-  const url = `${SPOTIFY_BASE_URL}/search?q=${encodeURIComponent(artist)}&type=track`;
-
+export const searchArtistByName = async (artistName, accessToken) => {
+  const url = `${SPOTIFY_BASE_URL}/search?q=${encodeURIComponent(artistName)}&type=artist`;
   const response = await fetch(url, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 
   if (!response.ok) {
-    throw new Error(`Error fetching tracks: ${response.statusText}`);
-  }
+    const errorData = await response.json();
+    if (errorData.error.message === "The access token expired") {
+        getRefreshToken();
+        const response2 = await fetch(url, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+            });
+        const data = await response2.json();
+        return data.artists.items[0].id;
+    } else {
+        throw new Error(`Error fetching tracks: ${response.statusText}`);
+    }
+    }
 
   const data = await response.json();
-  return data.tracks.items;
+  if (data.artists.items.length === 0) {
+    throw new Error('Artist not found');
+  }
+  return data.artists.items[0].id; // Return the first artist ID
 };
+
+export const fetchTopTracks = async (artistId, accessToken) => {
+  const url = `${SPOTIFY_BASE_URL}/artists/${artistId}/top-tracks`;
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Error fetching Top Tracks: ${response.statusText}`)
+  };
+
+  const data = await response.json();
+  return data.tracks;
+};
+
+
+
+

@@ -5,12 +5,12 @@ import PlaylistMenu from './Components/PlaylistMenu/PlaylistMenu.js';
 import SearchField from './Components/SearchField/SearchField.js';
 import ressources from "./Components/ressources/data.js";
 import { useAuth, AuthProvider } from './Modules/AuthService.js';
-import { searchTracksByArtist } from './Modules/requestAPI.js';
+import { fetchTopTracks, searchArtistByName } from './Modules/requestAPI.js';
 
 
 function AppContent() {
   const [search, setSearch] = useState(""); // String corresponding of the input of the user for the search.
-  const [tracklistToDisplay, setTracklistToDisplay] = useState(); 
+  const [tracklistToDisplay, setTracklistToDisplay] = useState({}); 
   const [isMenuPlaylist, setIsMenuPlaylist] = useState(true); // Boolean to determine if the playlist menu is display or not;
   const [playlists, setPlaylists] = useState({}); // Object of "playlist object", which contain two keys ==> name: string, songs: array. The Array of songs contain "song object".
   const [playlistToDisplay, setPlaylistToDisplay] = useState({}); // The playlist to display, this variable contain an object ==> name + songs.
@@ -19,8 +19,26 @@ function AppContent() {
   const [message, setMessage] = useState("")
   const [isPlaylistUpdatePending, setIsPlaylistUpdatePending] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
-  const { isAuthenticated } = useAuth();
- 
+  const { isAuthenticated, login, handleCallback, accessToken } = useAuth();
+
+  useEffect(() => {
+    // Check if there's a code in the URL (callback from Spotify)
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+
+    if (!isAuthenticated) {
+      if (code) {
+        console.log('handleCallBack')
+        // If there's a code, handle the callback
+        handleCallback();
+      } else {
+        console.log('login')
+        // If no code and not authenticated, initiate login
+        login();
+      }
+    }
+  }, [isAuthenticated]);
+
   useEffect(() => {
     if (isPlaylistUpdatePending && namePlaylistToDisplay) {
       setPlaylists(prevPlaylists => {
@@ -101,7 +119,7 @@ function AppContent() {
         setPlaylistToDisplay((prev) => (
           {
             ...prev,
-            [idSongToAdd]: ressources.trackList1[idSongToAdd]
+            [idSongToAdd]: tracklistToDisplay[idSongToAdd]
           }
         ))
       };     
@@ -121,9 +139,18 @@ function AppContent() {
 
   const handleSubmitSearch = async (e) => {
     e.preventDefault();
-    alert(search);
     try {
-      let tracks = searchTracksByArtist(search);
+      const tracks = {}
+      const tracksFetched = await searchArtistByName(search, accessToken)
+      .then(artistId => fetchTopTracks(artistId, accessToken))
+      .catch(error => console.error(error.message));
+      tracksFetched.forEach(trackFetched => {
+        tracks[trackFetched.id] = {
+          name: trackFetched.name,
+          artist: trackFetched.artists[0].name,
+          album: trackFetched.album.name
+        };
+      })
       setTracklistToDisplay(tracks);
     } catch (error) {
       console.error(error.message);

@@ -26,6 +26,7 @@ const base64encode = (input) => {
 };
 
 export const initiateSpotifyAuth = async () => {
+  localStorage.clear();
   const codeVerifier = generateCodeVerifier(64);
   localStorage.setItem('code_verifier', codeVerifier);
 
@@ -104,7 +105,7 @@ export const useAuth = () => {
 export const handleSpotifyCallback = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get('code');
-
+  console.log('callBackspoti run')
   if (code && !localStorage.getItem('access_token')) {
     try {
       const codeVerifier = localStorage.getItem('code_verifier');
@@ -123,9 +124,13 @@ export const handleSpotifyCallback = async () => {
       if (!response.ok) {
         throw new Error('Token exchange failed');
       }
-
+      console.log('get the token');
       const data = await response.json();
       localStorage.setItem('access_token', data.access_token);
+
+      // Clear the URL parameters
+      window.history.replaceState({}, document.title, redirectUri);
+
       return data.access_token;
     } catch (error) {
       console.error('Authentication error:', error);
@@ -134,3 +139,29 @@ export const handleSpotifyCallback = async () => {
   }
   return null;
 };
+
+export const getRefreshToken = async () => {
+
+  // refresh token that has been previously stored
+  const refreshToken = localStorage.getItem('refresh_token');
+  const url = "https://accounts.spotify.com/api/token";
+
+   const payload = {
+     method: 'POST',
+     headers: {
+       'Content-Type': 'application/x-www-form-urlencoded'
+     },
+     body: new URLSearchParams({
+       grant_type: 'refresh_token',
+       refresh_token: refreshToken,
+       client_id: clientId
+     }),
+   }
+   const body = await fetch(url, payload);
+   const response = await body.json();
+
+   localStorage.setItem('access_token', response.accessToken);
+   if (response.refreshToken) {
+     localStorage.setItem('refresh_token', response.refreshToken);
+   }
+ }

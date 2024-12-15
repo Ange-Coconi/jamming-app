@@ -1,6 +1,7 @@
 import React from "react";
 import Playlist from "../Playlist/Playlist.js";
-import styles from "./PlaylistMenu.module.css"
+import styles from "./PlaylistMenu.module.css";
+import { v4 as uuidv4 } from 'uuid';
 
 function PlaylistMenu(props) {
 
@@ -13,7 +14,7 @@ function PlaylistMenu(props) {
                 </div>
                 <div className={styles.playlists}>
                   {Object.entries(props.playlists).map(([namePlaylist, playlist]) => {
-                    return (<h2 onClick={props.handlePlaylistClick} className={`${styles.playlistItem} ${namePlaylist}`}>{namePlaylist}</h2>);
+                    return (<h2 key={uuidv4()} onClick={props.handlePlaylistClick} className={`${styles.playlistItem} ${namePlaylist}`}>{namePlaylist}</h2>);
                   })}
                 </div>
               </div>        
