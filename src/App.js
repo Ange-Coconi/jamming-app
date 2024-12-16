@@ -3,7 +3,6 @@ import React, {useState, useEffect} from 'react';
 import SearchResults from './Components/SearchResults/SearchResults.js';
 import PlaylistMenu from './Components/PlaylistMenu/PlaylistMenu.js';
 import SearchField from './Components/SearchField/SearchField.js';
-import ressources from "./Components/ressources/data.js";
 import { useAuth, AuthProvider } from './Modules/AuthService.js';
 import { fetchTopTracks, searchArtistByName, addPlaylistToUser } from './Modules/requestAPI.js';
 
@@ -37,6 +36,7 @@ function AppContent() {
         login();
       }
     }
+  // eslint-disable-next-line
   }, [isAuthenticated]);
 
   useEffect(() => {
