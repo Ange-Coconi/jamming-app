@@ -1,6 +1,4 @@
-import React, {useState} from "react";
 import Track from "../Track/Track.js";
-import SaveToSpotifyButton from "../SaveToSpotifyButton/SaveToSpotifyButton.js";
 import styles from "./Playlist.module.css"
 import {generateKeyNumber} from "../ressources/helperFunction.js"
 
@@ -36,8 +34,7 @@ function Playlist(props) {
                         handleRemoveTrack={props.handleRemoveTrack} 
                     />
                     )
-            })}
-            <SaveToSpotifyButton />               
+            })}             
         </div>
     );
 };
