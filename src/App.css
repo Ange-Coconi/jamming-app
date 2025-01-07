@@ -98,3 +98,7 @@
     font-weight: bold;
     border: solid white 2px;
 }
+
+button:hover {
+    cursor: pointer;
+}
