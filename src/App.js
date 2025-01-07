@@ -144,13 +144,21 @@ function AppContent() {
       const tracksFetched = await searchArtistByName(search, accessToken)
       .then(artistId => fetchTopTracks(artistId, accessToken))
       .catch(error => console.error(error.message));
-      tracksFetched.forEach(trackFetched => {
+      for (let i = 0; i < 8; i++) {
+        const trackFetched = tracksFetched[i];
         tracks[trackFetched.id] = {
           name: trackFetched.name,
           artist: trackFetched.artists[0].name,
           album: trackFetched.album.name
         };
-      })
+      };
+      // tracksFetched.forEach(trackFetched => {
+      //   tracks[trackFetched.id] = {
+      //     name: trackFetched.name,
+      //     artist: trackFetched.artists[0].name,
+      //     album: trackFetched.album.name
+      //   };
+      // })
       setTracklistToDisplay(tracks);
     } catch (error) {
       console.error(error.message);

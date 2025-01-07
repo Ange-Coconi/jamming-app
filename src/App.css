@@ -5,10 +5,11 @@
 
 .App {
     text-align: center;
-    background-image: url(./Components/ressources/images/space-station-2114660_1280.jpg);
-    background-repeat: no-repeat;
+    background-image: url("./Components/ressources/images/space-station-2114660_1280.jpg");
+    background-repeat: repeat-y;
     background-position: center;
     background-size: cover;
+    min-height: 100vh;
     height: 100vh;
     color: white;
     display: flex;
@@ -36,7 +37,7 @@
 .container {
     display: flex;
     justify-content: center;
-    height: 100%;
+    min-height: 75%;
     width: 100%;
 }
 
